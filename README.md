@@ -1,5 +1,4 @@
 # NodeMCU
-My NodeMCU Project
 We have raised a project ourselves.
 The project is a product that a fish tank with lights controller by WIFI.
 We want to simulate the deep or shallow sea's color through the digital light spectrum.
