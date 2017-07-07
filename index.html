@@ -19,11 +19,28 @@
             关灯<input type="radio" value="clhoseLight" name="light"/>
         </li>
         <li>
-            <input type="submit" value="操作" onclick="submit();" /> 
+            <input type="submit" value="操作" onclick="submit();" />
+            <input type="hidden" value="" id="hidValue" /> 
         </li>
     </ul>
 
     <script>
+
+        $(function () {
+            var t = getQueryString("callback");
+            if (t == null)
+            {
+                return;
+            }
+
+            if (t == "button")
+                    $("input[name='light']:eq(0)").attr("checked", 'checked');
+             else if(t== "chip")
+                    $("input[name='light']:eq(1)").attr("checked", 'checked');
+             else
+                    $("input[name='light']:eq(2)").attr("checked", 'checked');
+        });
+
         function submit()
         {
             var selected = $("input[name='light']:checked").val();
@@ -41,6 +58,7 @@
             if (selected == "buttonLight")
             {
                 url = "buttonLight";
+                
             }
             else if (selected == "chipLight") {
                 url = "chipLight";
@@ -48,9 +66,21 @@
             else {
                 url = "closeall";
             }
-
+            
+            $("#hidValue").html(selected);
             $(window.location).attr('href', url);
         }
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        
     </script>
 </body>
 </html>
