@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NodeMCU Control Page</title>
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    <h1 id="title">请先连接到网络。。。</h1>
+    <ul id="ulwifi">
+        <li>
+            SSID：<input type="text" width="80"  id="txtSSID"/>
+        </li>
+        <li>
+            密码: <input type="password" width="80" id="txtPWD" />
+        </li>
+        <li>
+            <input onclick="ConnectionWIFI()" type="button" value="连接WIFI" id="btnWIFI"/>
+        </li>
+    </ul>
+    <ul id="ulConnected" style="display:none;">
+        <li>
+            已连接到WIFI,当前的IP地址为:<span id="spIP"></span>
+        </li>
+    </ul>
+    <ul id="ulLightOpt" style="display:none;">
+        <li>
+            按钮灯<input type="radio" value="buttonLight" name="light"  />
+        </li>
+        <li>    
+            芯片灯<input type="radio" value="chipLight" name="light"/>
+        </li>    
+        <li>    
+            关灯<input type="radio" value="clhoseLight" name="light"/>
+        </li>
+        <li>
+            <input type="submit" value="操作" onclick="submit();" />
+            <input type="hidden" value="" id="hidValue" /> 
+        </li>
+    </ul>
+
+    <script>
+
+        $(function () {
+            var t = getQueryString("callback");
+            if (t == null)
+            {
+                return;
+            }
+
+
+            var ipaddress = getQueryString("ip");
+            if (ipaddress != "undefined")
+            {
+                $("#spIP").html(ipaddress);
+                $("#title").html("现在可以操作灯了");
+            }
+
+            if (t == "button")
+            {
+                $("input[name='light']:eq(0)").attr("checked", 'checked');
+                $("#ulwifi").hide();
+                $("#ulConnected").show();
+                $("#ulLightOpt").show();
+            }
+            else if(t== "chip")
+            {
+                $("input[name='light']:eq(1)").attr("checked", 'checked');
+                $("#ulwifi").hide();
+                $("#ulConnected").show();
+                $("#ulLightOpt").show();
+            }
+            else if (t == "wifi") {
+                $("input[name='light']:eq(2)").attr("checked", 'checked');
+                $("#ulwifi").hide();
+                $("#ulConnected").show();
+                $("#ulLightOpt").show();
+
+
+            }
+            else
+            {
+                $("input[name='light']:eq(2)").attr("checked", 'checked');
+                $("#ulwifi").hide();
+                $("#ulConnected").show();
+                $("#ulLightOpt").show();
+            }
+        });
+
+        function submit()
+        {
+            var selected = $("input[name='light']:checked").val();
+
+            console.debug(selected);
+
+            if (selected == "undified")
+            {
+                alert('请选选择一个类型');
+                return;
+            }
+
+            var url = "";
+
+            if (selected == "buttonLight")
+            {
+                url = "buttonLight";
+                
+            }
+            else if (selected == "chipLight") {
+                url = "chipLight";
+            }
+            else {
+                url = "closeall";
+            }
+            
+            $("#hidValue").html(selected);
+            $(window.location).attr('href', url);
+        }
+
+        function ConnectionWIFI()
+        {
+            var ssid = $("#txtSSID").val();
+            var pwd = $("#txtPWD").val();
+
+
+            var url = "conwifi?ssid=" + ssid + "&pwd=" + pwd;
+            console.debug(url);
+            $(window.location).attr('href', url);
+        }
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        
+    </script>
+</body>
+</html>
