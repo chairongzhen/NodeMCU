@@ -1,0 +1,89 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for todo
+-- ----------------------------
+DROP TABLE IF EXISTS `todo`;
+CREATE TABLE `todo` (
+  `todo_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '待办任务自增序号',
+  `todo_name` varchar(50) DEFAULT NULL COMMENT '待办事务标题',
+  `date_start` datetime DEFAULT NULL COMMENT '任务开始日期',
+  `date_end` datetime DEFAULT NULL COMMENT '任务结束日期',
+  `invo_users` varchar(1000) DEFAULT NULL COMMENT '参与用户',
+  `meti_users` varchar(1000) DEFAULT NULL COMMENT '关注用户',
+  `todo_desc` varchar(1000) DEFAULT NULL COMMENT '待办事务描述',
+  `todo_progress` int(11) DEFAULT NULL COMMENT '当前进度',
+  `todo_state` smallint(2) DEFAULT NULL COMMENT '事务状态',
+  `date_finish` datetime DEFAULT NULL COMMENT '完成日期',
+  `fini_user` int(11) DEFAULT NULL COMMENT '完成用户ID',
+  `sys_state` smallint(2) DEFAULT NULL COMMENT '数据状态',
+  `sys_created` datetime DEFAULT NULL COMMENT '记录创建日期',
+  `sys_createdby` varchar(20) DEFAULT NULL COMMENT '记录创建人',
+  `sys_modified` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '记录修改日期',
+  `sys_modifiedby` varchar(20) DEFAULT NULL COMMENT '记录修改人',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  PRIMARY KEY (`todo_id`),
+  KEY `user_id` (`user_id`) USING BTREE,
+  CONSTRAINT `fk_todo_todo_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for todo_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `todo_detail`;
+CREATE TABLE `todo_detail` (
+  `todo_detail_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '待办事务进度明细ID',
+  `todo_date` varchar(10) DEFAULT NULL COMMENT '选择日期',
+  `progress` int(11) DEFAULT NULL COMMENT '进度',
+  `content` varchar(200) DEFAULT NULL COMMENT '操作描述',
+  `sys_createdby` varchar(20) DEFAULT NULL COMMENT '操作人',
+  `sys_created` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '操作日期',
+  `todo_id` int(11) DEFAULT NULL COMMENT '待办任务ID',
+  PRIMARY KEY (`todo_detail_id`),
+  KEY `todo_id` (`todo_id`) USING BTREE,
+  CONSTRAINT `fk_todo_detail_todo_detail_1` FOREIGN KEY (`todo_id`) REFERENCES `todo` (`todo_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of sys_conf
+-- ----------------------------
+INSERT INTO `sys_conf` VALUES ('112', 'cloud_server', '2', '1683138');
+INSERT INTO `sys_conf` VALUES ('113', 'cloud_server', '3', 'pevc');
+INSERT INTO `sys_conf` VALUES ('114', 'cloud_server', '4', '1036');
+
+-- ----------------------------
+-- Records of function
+-- ----------------------------
+INSERT INTO `function` VALUES ('1', '922602110007', 'overview', '速览', '/app/index', null, '0', '0', '1', '1');
+INSERT INTO `function` VALUES ('2', '922602110002', 'search', '速查', '/app/quick', null, '0', '0', '2', '1');
+INSERT INTO `function` VALUES ('3', '922602110004', 'todo', '待办', '/app/todo', null, '0', '0', '3', '1');
+INSERT INTO `function` VALUES ('4', '922602110001', 'project', '项目', '/app/project/projectList', null, '0', '0', '4', '1');
+INSERT INTO `function` VALUES ('5', '922602110003', 'fund', '基金', '/app/fund/fundList', null, '0', '0', '5', '1');
+INSERT INTO `function` VALUES ('6', '922602110005', 'client', '客户', '/app/client/clientList', null, '0', '0', '6', '1');
+INSERT INTO `function` VALUES ('7', '922602110009', 'doc', '文档', '/app/doc', null, '0', '0', '7', '1');
+INSERT INTO `function` VALUES ('8', '922602110008', 'setting', '设置', '/app/setting', null, '0', '0', '9', '1');
+INSERT INTO `function` VALUES ('9', '922602110002', 'spot', '一键尽调', '/app/quick/oneKey', null, '0', '2', '10', '0');
+INSERT INTO `function` VALUES ('10', '922602110006', 'pevclib', 'PEVC数据库', '/app/quick/pevclib', null, '0', '2', '11', '1');
+INSERT INTO `function` VALUES ('11', '922602110008', 'authority', '用户权限', '/app/setting/userManage', null, '0', '8', '12', '1');
+INSERT INTO `function` VALUES ('12', '922602110008', 'option', '选项配置', '/app/setting/option', null, '0', '8', '13', '1');
+INSERT INTO `function` VALUES ('13', null, 'regulatory', '合规设置', '/app/setting/compliance', null, '0', '8', '14', '0');
+INSERT INTO `function` VALUES ('14', '922602110006', 'share', '共享', '/app/share', null, '0', '0', '8', '1');
+INSERT INTO `function` VALUES ('41', '', 'add', '创建', null, null, '1', '4', '15', '1');
+INSERT INTO `function` VALUES ('42', null, 'edit', '编辑', null, null, '1', '4', '16', '1');
+INSERT INTO `function` VALUES ('43', null, 'del', '删除', null, null, '1', '4', '17', '1');
+INSERT INTO `function` VALUES ('44', null, 'review', '审批', null, null, '1', '4', '18', '1');
+INSERT INTO `function` VALUES ('45', null, 'out', '导出', null, null, '1', '4', '19', '1');
+INSERT INTO `function` VALUES ('51', '', 'add', '创建', null, null, '1', '5', '20', '1');
+INSERT INTO `function` VALUES ('52', null, 'edit', '编辑', null, null, '1', '5', '21', '1');
+INSERT INTO `function` VALUES ('53', null, 'del', '删除', null, null, '1', '5', '22', '1');
+INSERT INTO `function` VALUES ('54', null, 'out', '导出', null, null, '1', '5', '23', '1');
+INSERT INTO `function` VALUES ('61', '', 'add', '创建', null, null, '1', '6', '24', '1');
+INSERT INTO `function` VALUES ('62', null, 'edit', '编辑', null, null, '1', '6', '25', '1');
+INSERT INTO `function` VALUES ('63', null, 'del', '删除', null, null, '1', '6', '26', '1');
+INSERT INTO `function` VALUES ('64', null, 'out', '导出', null, null, '1', '6', '27', '1');
+INSERT INTO `function` VALUES ('71', null, 'upload', '上传', null, null, '1', '7', '28', '0');
+INSERT INTO `function` VALUES ('72', null, 'del', '删除', null, null, '1', '7', '29', '1');
+INSERT INTO `function` VALUES ('73', null, 'download', '下载', null, null, '1', '7', '30', '1');
+
+
+SET FOREIGN_KEY_CHECKS=1;
